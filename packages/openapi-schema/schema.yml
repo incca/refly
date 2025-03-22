@@ -3497,6 +3497,15 @@ components:
         minimapStorageKey:
           type: string
           description: Minimap storage key
+    CanvasFromAgentRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: User's query
+          example: What is the weather in Beijing?
     UpsertCanvasResponse:
       allOf:
         - $ref: '#/components/schemas/BaseResponse'
@@ -5157,6 +5166,7 @@ components:
         - memo
         - group
         - image
+        - planner
     CanvasNodeData:
       type: object
       required:

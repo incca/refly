@@ -20,7 +20,10 @@ import {
   AutoNameCanvasRequest,
   AutoNameCanvasResponse,
   DuplicateCanvasRequest,
+  CanvasNode,
+  CanvasFromAgentRequest,
 } from '@refly-packages/openapi-schema';
+import { genUniqueId } from '@refly-packages/utils';
 
 @Controller('v1/canvas')
 export class CanvasController {
@@ -62,6 +65,26 @@ export class CanvasController {
   @Post('create')
   async createCanvas(@LoginedUser() user: User, @Body() body: UpsertCanvasRequest) {
     const canvas = await this.canvasService.createCanvas(user, body);
+    return buildSuccessResponse(canvasPO2DTO(canvas));
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('create-from-agent')
+  async agentCanvas(@LoginedUser() user: User, @Body() body: CanvasFromAgentRequest) {
+    const canvas = await this.canvasService.createCanvas(user, { title: 'Agent Canvas' });
+    const node: CanvasNode & { id: string; position: { x: number; y: number } } = {
+      id: `node-${genUniqueId()}`,
+      type: 'planner',
+      position: { x: 0, y: 0 },
+      data: {
+        title: body.query,
+        entityId: '',
+        metadata: {
+          originalInput: body,
+        },
+      },
+    };
+    await this.canvasService.addNodeToCanvas(user, canvas.canvasId, node satisfies CanvasNode);
     return buildSuccessResponse(canvasPO2DTO(canvas));
   }
 

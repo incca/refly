@@ -183,7 +183,9 @@ export class SkillEngine {
         : config.modelInfo?.name || this.options.defaultModel,
       apiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY,
       configuration: {
-        baseURL: process.env.OPENROUTER_API_KEY && 'https://openrouter.ai/api/v1',
+        baseURL: process.env.OPENROUTER_API_KEY
+          ? 'https://openrouter.ai/api/v1'
+          : process.env.OPENAI_BASE_URL,
         defaultHeaders: {
           'HTTP-Referer': 'https://refly.ai',
           'X-Title': 'Refly',

@@ -1703,6 +1703,13 @@ export type UpsertCanvasRequest = {
   minimapStorageKey?: string;
 };
 
+export type CanvasFromAgentRequest = {
+  /**
+   * User's query
+   */
+  query: string;
+};
+
 export type UpsertCanvasResponse = BaseResponse & {
   data?: Canvas;
 };
@@ -3280,7 +3287,8 @@ export type CanvasNodeType =
   | 'toolResponse'
   | 'memo'
   | 'group'
-  | 'image';
+  | 'image'
+  | 'planner';
 
 export type CanvasNodeData = {
   /**

@@ -2167,6 +2167,18 @@ export const UpsertCanvasRequestSchema = {
   },
 } as const;
 
+export const CanvasFromAgentRequestSchema = {
+  type: 'object',
+  required: ['query'],
+  properties: {
+    query: {
+      type: 'string',
+      description: "User's query",
+      example: 'What is the weather in Beijing?',
+    },
+  },
+} as const;
+
 export const UpsertCanvasResponseSchema = {
   allOf: [
     {
@@ -4671,6 +4683,7 @@ export const CanvasNodeTypeSchema = {
     'memo',
     'group',
     'image',
+    'planner',
   ],
 } as const;
 

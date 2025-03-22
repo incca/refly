@@ -29,12 +29,14 @@ export const AppLayout = (props: AppLayoutProps) => {
   const isPublicAccessPage = usePublicAccessPage();
   const matchPricing = useMatch('/pricing');
   const matchLogin = useMatch('/login');
+  const matchAgent = useMatch('/agent');
 
   useBindCommands();
 
   const hasBetaAccess = userStore.isLogin ? userStore.userProfile?.hasBetaAccess || false : true;
 
-  const showSider = isPublicAccessPage || (!!userStore.userProfile && !matchPricing && !matchLogin);
+  const showSider =
+    isPublicAccessPage || (!!userStore.userProfile && !matchPricing && !matchLogin && !matchAgent);
 
   return (
     <ErrorBoundary>

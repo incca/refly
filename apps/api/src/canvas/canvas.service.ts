@@ -723,4 +723,24 @@ export class CanvasService {
     const result = await this.autoNameCanvas(user, { canvasId, directUpdate: true });
     this.logger.log(`Auto named canvas ${canvasId} with title: ${result.title}`);
   }
+
+  async addNodeToCanvas(user: User, canvasId: string, node: CanvasNode) {
+    const canvas = await this.prisma.canvas.findUnique({
+      where: { canvasId, uid: user.uid, deletedAt: null },
+    });
+    if (!canvas) {
+      throw new CanvasNotFoundError();
+    }
+
+    const connection = await this.collabService.openDirectConnection(canvasId, {
+      user,
+      entity: canvas,
+      entityType: 'canvas',
+    });
+    connection.document.transact(() => {
+      const nodes = connection.document.getArray<CanvasNode>('nodes');
+      nodes.push([node]);
+    });
+    await connection.disconnect();
+  }
 }

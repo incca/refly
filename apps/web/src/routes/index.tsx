@@ -26,6 +26,7 @@ const SkillResponseSharePage = lazy(() => import('@/pages/skill-response-share')
 const DocumentSharePage = lazy(() => import('@/pages/document-share'));
 const ArtifactGalleryPage = lazy(() => import('@/pages/artifact-gallery'));
 const UseCasesGalleryPage = lazy(() => import('@/pages/use-cases-gallery'));
+const Agent = lazy(() => import('@/pages/agent/agent'));
 
 const prefetchRoutes = () => {
   // Prefetch common routes
@@ -108,6 +109,7 @@ export const AppRouter = (props: { layout?: any }) => {
             path="/request-access"
             element={<RequestAccessRoute hasBetaAccess={hasBetaAccess} />}
           />
+          <Route path="/agent" element={<Agent />} />
         </Routes>
       </Layout>
     </Suspense>
